@@ -34,13 +34,13 @@
             </conditionExpression>
         </sequenceFlow>
 
-        <serviceTask id="externalSystemCall" name="Enter holidays in external system"
+        <serviceTask id="externalSystemCall" name="External system"
                      flowable:class="com.kewdetect.integration.services.BusinessProcess"/>
         <sequenceFlow sourceRef="externalSystemCall" targetRef="approvedTask"/>
         <userTask id="approvedTask" name="Task approved"/>
         <sequenceFlow sourceRef="approvedTask" targetRef="approveEnd"/>
 
-        <serviceTask id="sendRejectionTask" name="Send out rejection email"
+        <serviceTask id="sendRejectionTask" name="Send out rejection task"
                      flowable:class="com.kewdetect.integration.services.RejectProcessEnd"/>
         <sequenceFlow sourceRef="sendRejectionTask" targetRef="rejectEnd"/>
 
