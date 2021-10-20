@@ -23,7 +23,6 @@ dev
 .mtj.tmp/
 
 # Package Files
-*.jar
 *.war
 *.ear
 
@@ -53,7 +52,6 @@ testdb.*
 *.log
 
 *.class
-*.jar
 *.lst
 */target/
 *.class
