@@ -15,6 +15,7 @@
  */
 package com.kewdetect.integration.services;
 
+import com.kewdetect.integration.model.payload.request.TaskModelRequest;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 
@@ -22,13 +23,26 @@ import java.util.Optional;
 
 public class BusinessProcess implements JavaDelegate {
     /**
-     *
      * @param execution
      */
     public void execute(DelegateExecution execution) {
-        Optional<Object> identityNo = Optional.ofNullable(execution.getVariable("identity_no"));
-        identityNo.ifPresent(x -> {
-            new TaskExecutorWorker(x.toString());
+        TaskModelRequest taskModel = new TaskModelRequest();
+        Optional<Object> caseID = Optional.ofNullable(execution.getVariable("case_id"));
+        caseID.ifPresent(x -> {
+            taskModel.setCaseID(x.toString());
         });
+        Optional<Object> rfiID = Optional.ofNullable(execution.getVariable("rfi_id"));
+        rfiID.ifPresent(x -> {
+            taskModel.setRfiID(x.toString());
+        });
+        Optional<Object> groupType = Optional.ofNullable(execution.getVariable("group_type"));
+        groupType.ifPresent(x -> {
+            taskModel.setGroupType(x.toString());
+        });
+        Optional<Object> keyword = Optional.ofNullable(execution.getVariable("keyword"));
+        keyword.ifPresent(x -> {
+            taskModel.setKeyword(x.toString());
+        });
+        new TaskExecutorWorker(taskModel);
     }
 }
