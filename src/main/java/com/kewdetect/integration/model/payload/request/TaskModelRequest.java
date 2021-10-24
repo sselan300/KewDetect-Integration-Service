@@ -1,4 +1,4 @@
-package com.kewdetect.integration.model;
+package com.kewdetect.integration.model.payload.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
@@ -21,7 +21,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
-public class TaskModel implements Serializable {
+public class TaskModelRequest implements Serializable {
 
     @SerializedName("case_id")
     @ApiModelProperty(name = "case_id", example = "case_id", required = true)

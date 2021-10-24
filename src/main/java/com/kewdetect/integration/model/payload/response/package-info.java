@@ -1,1 +1,1 @@
-package com.kewdetect.integration.model.response;
+package com.kewdetect.integration.model.payload.response;

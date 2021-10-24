@@ -16,6 +16,7 @@
 package com.kewdetect.integration.endpoint;
 
 import com.kewdetect.integration.model.TaskModel;
+import com.kewdetect.integration.model.payload.request.TaskModelRequest;
 import com.kewdetect.integration.services.CaseManagementService;
 import com.kwm.common.endpoint.AbstractEndpoint;
 import com.kwm.common.logging.SystemGeneralLog;
@@ -39,16 +40,16 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/flowable/bpmn")
-@Api(value = "FlowableBPMNController")
+@Api(value = "CaseManagementWorkflowController")
 public class CaseManagementWorkflowController extends AbstractEndpoint {
 
     @Autowired
     private CaseManagementService service;
 
-    @PostMapping(value = "/submit")
+    @PostMapping(value = "/integration/agency")
     @ApiOperation(
-            value = "Deploy API by Model ID and Model Version.",
-            notes = "Deploy API by Model ID and Model Version.",
+            value = "Integration Agency.",
+            notes = "Integration Agency.",
             response = List.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", reference = "The server successfully processed the request.", response = ResponseEntity.class),
@@ -60,40 +61,45 @@ public class CaseManagementWorkflowController extends AbstractEndpoint {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
     })
-    public DeferredResult<ResponseEntity> submit(
-            @Validated @RequestBody TaskModel body,
+    public DeferredResult<ResponseEntity> agency(
+            @Validated @RequestBody TaskModelRequest body,
             BindingResult bindingResult,
             HttpServletRequest httpServletRequest,
             HttpServletResponse httpServletResponse) {
         String accessToken = getAccessToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
         return toDeferredResult(
                 new DeferredResult<>(),
-                service.startProcess(body).subscribeOn(Schedulers.io()),
+                service.agency(body).subscribeOn(Schedulers.io()),
                 Locale.getDefault()
         );
     }
 
-//    @PostMapping("/submit")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
-//    })
-//    public void submit(@RequestBody TaskModel task) {
-//        service.startProcess(task);
-//    }
-//
-//    @GetMapping("/tasks")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
-//    })
-//    public List<TaskModel> getTasks(@RequestParam String assignee) {
-//        return service.getTasks(assignee);
-//    }
-//
-//    @PostMapping("/review")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
-//    })
-//    public void review(@RequestBody TaskModel task) {
-//        service.submitReview(task);
-//    }
+    @PostMapping(value = "/integration/flow")
+    @ApiOperation(
+            value = "Flowable BPMN.",
+            notes = "Flowable BPMN.",
+            response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", reference = "The server successfully processed the request.", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "Bad Request", reference = "Requested action could not be understood by the system.", response = ResponseEntity.class),
+            @ApiResponse(code = 401, message = "Unauthorized", reference = "Requested action requires authentication.", response = ResponseEntity.class),
+            @ApiResponse(code = 403, message = "Forbidden", reference = "System refuses to fulfill the requested action.", response = ResponseEntity.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", reference = "A generic error has occurred on the system.", response = ResponseEntity.class)
+    })
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "Authorization", value = "token", paramType = "header", dataType = "string", required = true)
+    })
+    public DeferredResult<ResponseEntity> flowableBPMN(
+            @Validated @RequestBody TaskModelRequest body,
+            BindingResult bindingResult,
+            HttpServletRequest httpServletRequest,
+            HttpServletResponse httpServletResponse) {
+        String accessToken = getAccessToken(httpServletRequest.getHeader(HttpHeaders.AUTHORIZATION));
+        return toDeferredResult(
+                new DeferredResult<>(),
+                service.flowableBPMN(body).subscribeOn(Schedulers.io()),
+                Locale.getDefault()
+        );
+    }
+
 }

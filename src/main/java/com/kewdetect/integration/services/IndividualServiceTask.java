@@ -21,7 +21,7 @@ import org.flowable.engine.delegate.JavaDelegate;
 
 import java.util.Optional;
 
-public class BusinessProcess implements JavaDelegate {
+public class IndividualServiceTask implements JavaDelegate {
     /**
      * @param execution
      */

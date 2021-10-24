@@ -9,9 +9,7 @@
              typeLanguage="http://www.w3.org/2001/XMLSchema"
              expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.flowable.org/processdef">
-
     <process id="identityNoRequest" name="Identity Request" isExecutable="true">
-
         <startEvent id="startEvent"/>
         <sequenceFlow sourceRef="startEvent" targetRef="approveTask"/>
 
@@ -19,34 +17,34 @@
         <sequenceFlow sourceRef="approveTask" targetRef="decision"/>
 
         <exclusiveGateway id="decision"/>
-        <sequenceFlow sourceRef="decision" targetRef="externalSystemCall">
-            <conditionExpression xsi:type="tFormalExpression">
-                <![CDATA[
-          ${approved}
-        ]]>
-            </conditionExpression>
+        <sequenceFlow id="flow1" sourceRef="decision" targetRef="individualTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "individual" || group_type == 'individual'}]]></conditionExpression>
         </sequenceFlow>
-        <sequenceFlow sourceRef="decision" targetRef="sendRejectionTask">
-            <conditionExpression xsi:type="tFormalExpression">
-                <![CDATA[
-          ${!approved}
-        ]]>
-            </conditionExpression>
+        <sequenceFlow id="flow2" sourceRef="decision" targetRef="familyTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "family" || group_type == 'family'}]]></conditionExpression>
         </sequenceFlow>
+        <sequenceFlow id="flow3" sourceRef="decision" targetRef="companyTask">
+            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "company" || group_type == 'company'}]]></conditionExpression>
+        </sequenceFlow>
+        <serviceTask id="individualTask" name="Individual information will be used to trigger a group of agencies according to sequence"
+                     flowable:class="com.kewdetect.integration.services.IndividualServiceTask"/>
+        <sequenceFlow sourceRef="individualTask" targetRef="approvedIndividualTask"/>
+        <userTask id="approvedIndividualTask" name="Task approved"/>
+        <sequenceFlow sourceRef="approvedIndividualTask" targetRef="approveEnd"/>
 
-        <serviceTask id="externalSystemCall" name="External system"
-                     flowable:class="com.kewdetect.integration.services.BusinessProcess"/>
-        <sequenceFlow sourceRef="externalSystemCall" targetRef="approvedTask"/>
-        <userTask id="approvedTask" name="Task approved"/>
-        <sequenceFlow sourceRef="approvedTask" targetRef="approveEnd"/>
+        <serviceTask id="familyTask" name="Individual and family information will be used to trigger a group of agencies according to sequence"
+                     flowable:class="com.kewdetect.integration.services.FamilyServiceTask"/>
+        <sequenceFlow sourceRef="familyTask" targetRef="approvedFamilyTask"/>
+        <userTask id="approvedFamilyTask" name="Task approved"/>
+        <sequenceFlow sourceRef="approvedFamilyTask" targetRef="approveEnd"/>
 
-        <serviceTask id="sendRejectionTask" name="Send out rejection task"
-                     flowable:class="com.kewdetect.integration.services.RejectProcessEnd"/>
-        <sequenceFlow sourceRef="sendRejectionTask" targetRef="rejectEnd"/>
+        <serviceTask id="companyTask" name="Company id will be used to trigger a group of agencies according to sequence"
+                     flowable:class="com.kewdetect.integration.services.CompanyServiceTask"/>
+        <sequenceFlow sourceRef="companyTask" targetRef="approvedCompanyTask"/>
+        <userTask id="approvedCompanyTask" name="Task approved"/>
+        <sequenceFlow sourceRef="approvedCompanyTask" targetRef="approveEnd"/>
 
         <endEvent id="approveEnd"/>
-
-        <endEvent id="rejectEnd"/>
 
     </process>
 
