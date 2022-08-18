@@ -15,12 +15,9 @@
  */
 package com.kewdetect.integration.services;
 
-import com.google.gson.Gson;
-import com.kewdetect.integration.model.TaskModel;
 import com.kewdetect.integration.model.payload.request.TaskModelRequest;
 import com.kwm.common.analytics.Analytics;
 import com.kwm.common.analytics.AnalyticsHelper;
-import com.kwm.common.mailer.MailUtils;
 import com.kwm.common.model.KewMannAPIResponseEntity;
 import io.reactivex.Observable;
 import org.flowable.engine.RuntimeService;
@@ -29,16 +26,13 @@ import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.Collectors;
 
 @Service
 public class CaseManagementService {
@@ -70,18 +64,21 @@ public class CaseManagementService {
         executor.submit(() ->
                 {
                     Map<String, Object> variables = new HashMap<String, Object>();
-                    variables.put("case_id", taskModel.getCaseID());
+                    variables.put("ip_id", taskModel.getIpID());
                     variables.put("rfi_id", taskModel.getRfiID());
-                    variables.put("group_type", taskModel.getGroupType());
                     variables.put("keyword", taskModel.getKeyword());
-                    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey("identityNoRequest", variables);
+                    variables.put("keyword_type", taskModel.getKeywordType());
+                    variables.put("jo_id", taskModel.getJoID());
+
+                    ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(taskModel.getKeywordType(), variables);
+
                     List<Task> tasks = taskService.createTaskQuery().taskCandidateGroup("managers").list();
                     analytics.logEvent("You have " + tasks.size() + " tasks:");
                     for (int i = 0; i < tasks.size(); i++) {
                         Map<String, Object> variablesTemp = taskService.getVariables(tasks.get(i).getId());
                         analytics.logEvent((i + 1) + ") " + tasks.get(i).getId() + tasks.get(i).getName());
                         Map<String, Object> variablesConditionExpression = new HashMap<String, Object>();
-                        String groupType = taskModel.getGroupType().trim();
+                        String groupType = taskModel.getKeywordType().trim();
                         System.err.println(groupType.trim());
                         variablesConditionExpression.put("group_type", groupType);
                         taskService.complete(tasks.get(i).getId(), variablesConditionExpression);

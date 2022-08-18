@@ -29,20 +29,21 @@ public class IndividualServiceTask implements JavaDelegate {
         TaskModelRequest taskModel = new TaskModelRequest();
         Optional<Object> caseID = Optional.ofNullable(execution.getVariable("case_id"));
         caseID.ifPresent(x -> {
-            taskModel.setCaseID(x.toString());
+            taskModel.setIpID(x.toString());
         });
         Optional<Object> rfiID = Optional.ofNullable(execution.getVariable("rfi_id"));
         rfiID.ifPresent(x -> {
             taskModel.setRfiID(x.toString());
         });
-        Optional<Object> groupType = Optional.ofNullable(execution.getVariable("group_type"));
+        Optional<Object> groupType = Optional.ofNullable(execution.getVariable("keyword"));
         groupType.ifPresent(x -> {
-            taskModel.setGroupType(x.toString());
+            taskModel.setKeywordType(x.toString());
         });
-        Optional<Object> keyword = Optional.ofNullable(execution.getVariable("keyword"));
+        Optional<Object> keyword = Optional.ofNullable(execution.getVariable("jo_id"));
         keyword.ifPresent(x -> {
-            taskModel.setKeyword(x.toString());
+            taskModel.setJoID(x.toString());
         });
+
         new TaskExecutorWorker(taskModel);
     }
 }

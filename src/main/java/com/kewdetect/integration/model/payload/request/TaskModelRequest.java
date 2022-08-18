@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 
 /**
@@ -23,28 +25,30 @@ import java.io.Serializable;
 @Setter
 public class TaskModelRequest implements Serializable {
 
-    @SerializedName("case_id")
-    @ApiModelProperty(name = "case_id", example = "case_id", required = true)
-    @JsonProperty("case_id")
-    private String caseID;
+    @SerializedName("ip_id")
+    @ApiModelProperty(name = "ip_id", example = "ip_id", required = false)
+    @JsonProperty("ip_id")
+    private String ipID;
 
     @SerializedName("rfi_id")
     @ApiModelProperty(name = "rfi_id", example = "rfi_id", required = true)
     @JsonProperty("rfi_id")
     private String rfiID;
 
-    @SerializedName("agency_id")
-    @ApiModelProperty(name = "agency_id", example = "agency_id", required = true)
-    @JsonProperty("agency_id")
-    private String agencyID;
-
-    @SerializedName("group_type")
-    @ApiModelProperty(name = "group_type", example = "group_type", required = true)
-    @JsonProperty("group_type")
-    private String groupType;
-
     @SerializedName("keyword")
     @ApiModelProperty(name = "keyword", example = "keyword", required = true)
     @JsonProperty("keyword")
     private String keyword;
+
+    @Enumerated(EnumType.STRING)
+    @SerializedName("keyword_type")
+    @ApiModelProperty(name = "keyword_type", example = "keyword_type", required = true)
+    @JsonProperty("keyword_type")
+    private String keywordType;
+
+    @SerializedName("jo_id")
+    @ApiModelProperty(name = "jo_id", example = "jo_id", required = false)
+    @JsonProperty("jo_id")
+    private String joID;
+
 }

@@ -1,18 +1,3 @@
-/*
- * Copyright (c) 2019, 2020 kewmann.com and/or its affiliates. All rights reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.kewdetect.integration.services;
 
 import com.kewdetect.integration.model.payload.request.TaskModelRequest;
@@ -21,10 +6,9 @@ import org.flowable.engine.delegate.JavaDelegate;
 
 import java.util.Optional;
 
-public class CompanyServiceTask implements JavaDelegate {
-    /**
-     * @param execution
-     */
+public class IC implements JavaDelegate {
+
+    @Override
     public void execute(DelegateExecution execution) {
         TaskModelRequest taskModel = new TaskModelRequest();
         Optional<Object> caseID = Optional.ofNullable(execution.getVariable("case_id"));
@@ -43,6 +27,9 @@ public class CompanyServiceTask implements JavaDelegate {
         keyword.ifPresent(x -> {
             taskModel.setJoID(x.toString());
         });
-        new TaskExecutorWorker(taskModel);
+
+//        new TaskExecutorWorker(taskModel);
+        System.out.println("Sample IC: 980916105301");
+
     }
 }
