@@ -6,6 +6,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.kewdetect.integration.services.sftpService.utils.ISFTPService;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayInputStream;
@@ -16,30 +17,24 @@ import java.util.UUID;
 @Service
 public class SFTPServiceImpl implements ISFTPService {
 
-//    @Autowired
-//    @Value("sftp.path")
-     private String path = "/opt/nfis/pending/";
-//    @Autowired
-//    @Value("sftp.host")
-     private String host = "47.241.58.103";
+    @Value("${sftp.path}")
+     private String path;
 
-//    @Autowired
-//    @Value("sftp.port")
-     private String port = "22";
+    @Value("${sftp.host}")
+     private String host;
 
-//    @Autowired
-//    @Value("sftp.user")
-     private String user = "root";
+    @Value("${sftp.port}")
+     private String port;
 
-//    @Autowired
-//    @Value("sftp.password")
-     private String password = "KmRoot@@";
+    @Value("${sftp.user}")
+     private String user;
 
+    @Value("${sftp.password}")
+     private String password;
 
     @Override
     public void export2ftp(String data, JSONObject metadata) throws Exception{
-
-
+        String path1 = this.path == null ?  "/opt/nfis/pending/" : this.path;
 
             JSch jsch = new JSch();
             Session session = jsch.getSession(user, host,Integer.parseInt(port));
