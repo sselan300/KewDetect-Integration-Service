@@ -23,7 +23,7 @@ public class ssmIndividualRobWorker {
 
 
     @Autowired
-    ISFTPService sftpclient = new SFTPServiceImpl();
+    ISFTPService sftpclient;
 
 
     //SOAP using mockio example

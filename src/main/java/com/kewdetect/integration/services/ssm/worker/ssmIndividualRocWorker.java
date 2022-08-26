@@ -4,7 +4,6 @@ package com.kewdetect.integration.services.ssm.worker;
 import com.cc.cielo.authgen.TokenGenerator;
 import com.kewdetect.integration.model.payload.request.TaskModelRequest;
 import com.kewdetect.integration.services.sftpService.utils.ISFTPService;
-import com.kewdetect.integration.services.sftpService.utils.impl.SFTPServiceImpl;
 import com.kwm.common.analytics.Analytics;
 import com.kwm.common.analytics.AnalyticsHelper;
 import kong.unirest.HttpResponse;
@@ -24,7 +23,7 @@ public class ssmIndividualRocWorker {
 
 
     @Autowired
-    ISFTPService sftpclient = new SFTPServiceImpl();
+    ISFTPService sftpclient;
 
 
     public void execute(TaskModelRequest model) throws UnirestException {
