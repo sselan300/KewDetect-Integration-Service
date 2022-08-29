@@ -56,7 +56,7 @@ ext {
 }
 
 bootJar {
-    baseName = 'kewdetect_role_access_service'
+    baseName = 'kewdetect_intergration_service'
     version = '0.1.0'
     manifest {
         attributes(
