@@ -11,6 +11,6 @@ RUN gradle clean build
 FROM openjdk:11-slim as runtime
 ENV JAVA_OPTS="-Dspring.profiles.active=alibaba"
 WORKDIR /home/root/nfis/
-COPY --from=builder /home/root/build/build/libs/kewdetect_intergration_service-0.1.0.jar $WORKDIR
+COPY --from=builder /home/root/build/build/libs/nfis_intergration_service-0.1.0.jar $WORKDIR
 EXPOSE 8088
-ENTRYPOINT [ "sh", "-c", "java -jar $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom kewdetect_intergration_service-0.1.0.jar" ]
+ENTRYPOINT [ "sh", "-c", "java -jar $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom nfis_intergration_service-0.1.0.jar" ]
