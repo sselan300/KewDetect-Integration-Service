@@ -19,7 +19,7 @@ plugins {
     id 'java'
 }
 
-group 'com.kewdetect.integration'
+group 'com.nfis.integration'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'org.springframework.boot'
@@ -56,7 +56,7 @@ ext {
 }
 
 bootJar {
-    baseName = 'kewdetect_role_access_service'
+    baseName = 'nfis_intergration_service'
     version = '0.1.0'
     manifest {
         attributes(
