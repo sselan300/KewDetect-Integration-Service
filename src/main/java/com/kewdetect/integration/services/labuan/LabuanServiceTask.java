@@ -13,36 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kewdetect.integration.services;
+package com.kewdetect.integration.services.labuan;
 
 import com.kewdetect.integration.model.payload.request.TaskModelRequest;
+import com.kewdetect.integration.services.utils.ModelConverter;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 
 import java.util.Optional;
 
-public class CompanyServiceTask implements JavaDelegate {
+public class LabuanServiceTask implements JavaDelegate {
+
     /**
      * @param execution
      */
     public void execute(DelegateExecution execution) {
-        TaskModelRequest taskModel = new TaskModelRequest();
-        Optional<Object> caseID = Optional.ofNullable(execution.getVariable("case_id"));
-        caseID.ifPresent(x -> {
-            taskModel.setIpID(x.toString());
-        });
-        Optional<Object> rfiID = Optional.ofNullable(execution.getVariable("rfi_id"));
-        rfiID.ifPresent(x -> {
-            taskModel.setRfiID(x.toString());
-        });
-        Optional<Object> groupType = Optional.ofNullable(execution.getVariable("keyword"));
-        groupType.ifPresent(x -> {
-            taskModel.setKeywordType(x.toString());
-        });
-        Optional<Object> keyword = Optional.ofNullable(execution.getVariable("jo_id"));
-        keyword.ifPresent(x -> {
-            taskModel.setJoID(x.toString());
-        });
-        new TaskExecutorWorker(taskModel);
+        TaskModelRequest request=  ModelConverter.convert(execution);
+
+//        new TaskExecutorWorker(taskModel);
+
+        System.out.println("Labuan api is called");
     }
 }

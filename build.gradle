@@ -11,6 +11,7 @@ buildscript {
         mavenCentral()
         maven { url "http://repo.spring.io/snapshot" }
         maven { url "http://repo.spring.io/milestone" }
+
     }
 }
 
@@ -18,7 +19,7 @@ plugins {
     id 'java'
 }
 
-group 'com.kewdetect.integration'
+group 'com.nfis.integration'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'org.springframework.boot'
@@ -55,7 +56,7 @@ ext {
 }
 
 bootJar {
-    baseName = 'kewdetect_role_access_service'
+    baseName = 'nfis_intergration_service'
     version = '0.1.0'
     manifest {
         attributes(
@@ -92,6 +93,11 @@ dependencies {
     implementation "io.springfox:springfox-swagger2:${spring_fox_swagger}"
 
     implementation "io.springfox:springfox-swagger-ui:${spring_fox_swagger}"
+
+    implementation 'com.konghq:unirest-java:3.11.09:standalone'
+
+    //jackson library to convert xml to json
+//    implementation group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version: '2.13.1'
 
     // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation "com.google.code.gson:gson:2.8.6"
@@ -180,6 +186,8 @@ dependencies {
     compile  'com.squareup.retrofit2:converter-scalars:2.1.0'
 
     compile group: 'org.json', name: 'json', version: '20180813'
+
+    compile group: 'com.jcraft', name: 'jsch', version: '0.1.55'
 
     // https://mvnrepository.com/artifact/org.flowable/flowable-spring-boot-starter-rest
     implementation group: 'org.flowable', name: 'flowable-spring-boot-starter-rest', version: '6.7.0'

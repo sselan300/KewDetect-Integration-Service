@@ -27,21 +27,21 @@ public class FamilyServiceTask implements JavaDelegate {
      */
     public void execute(DelegateExecution execution) {
         TaskModelRequest taskModel = new TaskModelRequest();
-        Optional<Object> caseID = Optional.ofNullable(execution.getVariable("case_id"));
-        caseID.ifPresent(x -> {
-            taskModel.setCaseID(x.toString());
+        Optional<Object> ipId = Optional.ofNullable(execution.getVariable("ip_id"));
+        ipId.ifPresent(x -> {
+            taskModel.setIpID(x.toString());
         });
         Optional<Object> rfiID = Optional.ofNullable(execution.getVariable("rfi_id"));
         rfiID.ifPresent(x -> {
             taskModel.setRfiID(x.toString());
         });
-        Optional<Object> groupType = Optional.ofNullable(execution.getVariable("group_type"));
-        groupType.ifPresent(x -> {
-            taskModel.setGroupType(x.toString());
+        Optional<Object> keywordType = Optional.ofNullable(execution.getVariable("keyword_type"));
+        keywordType.ifPresent(x -> {
+            taskModel.setKeywordType(x.toString());
         });
         Optional<Object> keyword = Optional.ofNullable(execution.getVariable("keyword"));
         keyword.ifPresent(x -> {
-            taskModel.setKeyword(x.toString());
+            taskModel.setKeywordType(x.toString());
         });
         new TaskExecutorWorker(taskModel);
     }

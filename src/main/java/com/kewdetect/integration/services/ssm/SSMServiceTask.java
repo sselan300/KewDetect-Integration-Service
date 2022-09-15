@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.kewdetect.integration.services;
+package com.kewdetect.integration.services.ssm;
 
 import com.kewdetect.integration.model.payload.request.TaskModelRequest;
 import org.flowable.engine.delegate.DelegateExecution;
@@ -21,14 +21,15 @@ import org.flowable.engine.delegate.JavaDelegate;
 
 import java.util.Optional;
 
-public class CompanyServiceTask implements JavaDelegate {
+public class SSMServiceTask implements JavaDelegate {
+
     /**
      * @param execution
      */
     public void execute(DelegateExecution execution) {
         TaskModelRequest taskModel = new TaskModelRequest();
-        Optional<Object> caseID = Optional.ofNullable(execution.getVariable("case_id"));
-        caseID.ifPresent(x -> {
+        Optional<Object> ipId = Optional.ofNullable(execution.getVariable("ip_id"));
+        ipId.ifPresent(x -> {
             taskModel.setIpID(x.toString());
         });
         Optional<Object> rfiID = Optional.ofNullable(execution.getVariable("rfi_id"));
@@ -43,6 +44,8 @@ public class CompanyServiceTask implements JavaDelegate {
         keyword.ifPresent(x -> {
             taskModel.setJoID(x.toString());
         });
-        new TaskExecutorWorker(taskModel);
+
+//        new TaskExecutorWorker(taskModel);
+        System.out.println("SSM api is called");
     }
 }

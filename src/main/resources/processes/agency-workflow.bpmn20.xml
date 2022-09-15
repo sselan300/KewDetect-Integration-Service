@@ -9,42 +9,271 @@
              typeLanguage="http://www.w3.org/2001/XMLSchema"
              expressionLanguage="http://www.w3.org/1999/XPath"
              targetNamespace="http://www.flowable.org/processdef">
-    <process id="identityNoRequest" name="Identity Request" isExecutable="true">
-        <startEvent id="startEvent"/>
-        <sequenceFlow sourceRef="startEvent" targetRef="approveTask"/>
+<!--    <process id="identityNoRequest" name="Identity Request" isExecutable="true">-->
+<!--        <startEvent id="startEvent"/>-->
+<!--        <sequenceFlow sourceRef="startEvent" targetRef="approveTask"/>-->
 
-        <userTask id="approveTask" name="Approve or reject request" flowable:candidateGroups="managers"/>
-        <sequenceFlow sourceRef="approveTask" targetRef="decision"/>
+<!--        <userTask id="approveTask" name="Approve or reject request" flowable:candidateGroups="managers"/>-->
+<!--        <sequenceFlow sourceRef="approveTask" targetRef="decision"/>-->
 
-        <exclusiveGateway id="decision"/>
-        <sequenceFlow id="flow1" sourceRef="decision" targetRef="individualTask">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "individual" || group_type == 'individual'}]]></conditionExpression>
-        </sequenceFlow>
-        <sequenceFlow id="flow2" sourceRef="decision" targetRef="familyTask">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "family" || group_type == 'family'}]]></conditionExpression>
-        </sequenceFlow>
-        <sequenceFlow id="flow3" sourceRef="decision" targetRef="companyTask">
-            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "company" || group_type == 'company'}]]></conditionExpression>
-        </sequenceFlow>
-        <serviceTask id="individualTask" name="Individual information will be used to trigger a group of agencies according to sequence"
-                     flowable:class="com.kewdetect.integration.services.IndividualServiceTask"/>
-        <sequenceFlow sourceRef="individualTask" targetRef="approvedIndividualTask"/>
-        <userTask id="approvedIndividualTask" name="Task approved"/>
-        <sequenceFlow sourceRef="approvedIndividualTask" targetRef="approveEnd"/>
+<!--        <exclusiveGateway id="decision"/>-->
+<!--        <sequenceFlow id="flow1" sourceRef="decision" targetRef="individualTask">-->
+<!--            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "individual" || group_type == 'individual'}]]></conditionExpression>-->
+<!--        </sequenceFlow>-->
+<!--        <sequenceFlow id="flow2" sourceRef="decision" targetRef="familyTask">-->
+<!--            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "family" || group_type == 'family'}]]></conditionExpression>-->
+<!--        </sequenceFlow>-->
+<!--        <sequenceFlow id="flow3" sourceRef="decision" targetRef="companyTask">-->
+<!--            <conditionExpression xsi:type="tFormalExpression"><![CDATA[${group_type == "company" || group_type == 'company'}]]></conditionExpression>-->
+<!--        </sequenceFlow>-->
+<!--        <serviceTask id="individualTask" name="Individual information will be used to trigger a group of agencies according to sequence"-->
+<!--                     flowable:class="com.kewdetect.integration.services.IndividualServiceTask"/>-->
+<!--        <sequenceFlow sourceRef="individualTask" targetRef="approvedIndividualTask"/>-->
+<!--        <userTask id="approvedIndividualTask" name="Task approved"/>-->
+<!--        <sequenceFlow sourceRef="approvedIndividualTask" targetRef="approveEnd"/>-->
 
-        <serviceTask id="familyTask" name="Individual and family information will be used to trigger a group of agencies according to sequence"
-                     flowable:class="com.kewdetect.integration.services.FamilyServiceTask"/>
-        <sequenceFlow sourceRef="familyTask" targetRef="approvedFamilyTask"/>
-        <userTask id="approvedFamilyTask" name="Task approved"/>
-        <sequenceFlow sourceRef="approvedFamilyTask" targetRef="approveEnd"/>
+<!--        <serviceTask id="familyTask" name="Individual and family information will be used to trigger a group of agencies according to sequence"-->
+<!--                     flowable:class="com.kewdetect.integration.services.FamilyServiceTask"/>-->
+<!--        <sequenceFlow sourceRef="familyTask" targetRef="approvedFamilyTask"/>-->
+<!--        <userTask id="approvedFamilyTask" name="Task approved"/>-->
+<!--        <sequenceFlow sourceRef="approvedFamilyTask" targetRef="approveEnd"/>-->
 
-        <serviceTask id="companyTask" name="Company id will be used to trigger a group of agencies according to sequence"
-                     flowable:class="com.kewdetect.integration.services.CompanyServiceTask"/>
-        <sequenceFlow sourceRef="companyTask" targetRef="approvedCompanyTask"/>
-        <userTask id="approvedCompanyTask" name="Task approved"/>
-        <sequenceFlow sourceRef="approvedCompanyTask" targetRef="approveEnd"/>
+<!--        <serviceTask id="companyTask" name="Company id will be used to trigger a group of agencies according to sequence"-->
+<!--                     flowable:class="com.kewdetect.integration.services.CompanyServiceTask"/>-->
+<!--        <sequenceFlow sourceRef="companyTask" targetRef="approvedCompanyTask"/>-->
+<!--        <userTask id="approvedCompanyTask" name="Task approved"/>-->
+<!--        <sequenceFlow sourceRef="approvedCompanyTask" targetRef="approveEnd"/>-->
 
-        <endEvent id="approveEnd"/>
+<!--        <endEvent id="approveEnd"/>-->
+
+<!--    </process>-->
+
+    <!--    /////////////////////////////////////Testing chunk//////////////////////////////////////////////////////-->
+
+<!--    <process id="myProcess" name="First processes" isExecutable="true">-->
+
+<!--        <startEvent id="theStart" />-->
+<!--        <sequenceFlow id="path1" sourceRef="theStart" targetRef="calljpnapi" />-->
+
+<!--        <serviceTask id="calljpnapi" name="Call JPN api with ic"-->
+<!--            flowable:class="com.kewdetect.integration.services.IC">-->
+
+<!--            <documentation>-->
+<!--                Call JPN api with ic-->
+<!--            </documentation>-->
+
+<!--        </serviceTask>-->
+
+
+<!--&lt;!&ndash;////////////////////////////////////////////////////////////////////////////////////////////////////&ndash;&gt;-->
+
+
+<!--        <sequenceFlow id="path2" sourceRef="calljpnapi" targetRef="callssmapi" />-->
+
+<!--        <serviceTask id="callssmapi" name="Call SSM api with IC"-->
+<!--            flowable:class="com.kewdetect.integration.services.ssm.SSMServiceTask">-->
+<!--            <documentation>-->
+<!--                Call SSM api using the ic-->
+<!--            </documentation>-->
+
+<!--        </serviceTask>-->
+
+<!--        &lt;!&ndash;    ///////////////////////////////////////////////////////////////////////////////////////////////////&ndash;&gt;-->
+
+<!--        <sequenceFlow id="path3" sourceRef="callssmapi" targetRef="calljpjapi" />-->
+
+<!--        <serviceTask id="calljpjapi" name="Call JPJ api with IC"-->
+<!--            flowable:class="com.kewdetect.integration.services.jpn.worker.JPJ">-->
+<!--            <documentation>-->
+<!--                Call JPJ api using the ic-->
+<!--            </documentation>-->
+
+<!--        </serviceTask>-->
+
+<!--        <sequenceFlow id="path4" sourceRef="calljpjapi" targetRef="theEnd" />-->
+
+    <!--    </process>-->
+
+    <!--    /////////////////////Agencies Flow//////////////////////
+
+            <endEvent id="theEnd" />-->
+
+    <process id="ic_new" name="ic_new" isExecutable="true">
+                <startEvent id="icNew-start" />
+                <sequenceFlow id="icNew-path" sourceRef="icNew-start" targetRef="icNew-end" />
+
+                <serviceTask id="icNew-end" name="ic_new"
+                    flowable:class="com.kewdetect.integration.services.jpn.NRICNewServiceTask">
+
+                    <documentation>
+                        New Ic api is called
+                    </documentation>
+
+                </serviceTask>
+
+    </process>
+
+    <process id="ic_old" name="ic_old" isExecutable="true">
+        <startEvent id="oldIC-start" />
+        <sequenceFlow id="oldIC-path1" sourceRef="oldIC-start" targetRef="oldIC-end" />
+
+        <serviceTask id="oldIC-end" name="old_IC"
+                     flowable:class="com.kewdetect.integration.services.jpn.NRIColdServiceTask">
+
+            <documentation>
+                Old Ic api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="pass" name="pass" isExecutable="true">
+        <startEvent id="pass-start" />
+        <sequenceFlow id="pass-path1" sourceRef="pass-start" targetRef="pass-end" />
+
+        <serviceTask id="pass-end" name="pass"
+                     flowable:class="com.kewdetect.integration.services.IC">
+
+            <documentation>
+                Passport api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="ten" name="ten" isExecutable="true">
+        <startEvent id="ten-start" />
+        <sequenceFlow id="ten-path1" sourceRef="ten-start" targetRef="ten-end" />
+
+        <serviceTask id="ten-end" name="ten"
+                     flowable:class="com.kewdetect.integration.services.tentera.TenteraServiceTask">
+
+            <documentation>
+                Tentera api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="ssm" name="ssm" isExecutable="true">
+        <startEvent id="ssm-start" />
+        <sequenceFlow id="ssm-path1" sourceRef="ssm-start" targetRef="ssm-end" />
+
+        <serviceTask id="ssm-end" name="ssm"
+                     flowable:class="com.kewdetect.integration.services.ssm.SSMServiceTask">
+
+            <documentation>
+                SSM api is called
+            </documentation>
+
+        </serviceTask>
+    </process>
+
+    <process id="ros" name="ros" isExecutable="true">
+        <startEvent id="ros-start" />
+        <sequenceFlow id="ros-path1" sourceRef="ros-start" targetRef="ros-end" />
+
+        <serviceTask id="ros-end" name="ros"
+                     flowable:class="com.kewdetect.integration.services.ros.ROSServiceTask">
+
+            <documentation>
+                ROS api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="llp" name="llp" isExecutable="true">
+        <startEvent id="llp-start" />
+        <sequenceFlow id="llp-path1" sourceRef="llp-start" targetRef="llp-end" />
+
+        <serviceTask id="llp-end" name="llp"
+                     flowable:class="com.kewdetect.integration.services.llp.LLPServiceTask">
+
+            <documentation>
+                LLP api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="roc" name="roc" isExecutable="true">
+        <startEvent id="roc-start" />
+        <sequenceFlow id="roc-path1" sourceRef="roc-start" targetRef="roc-end" />
+
+        <serviceTask id="roc-end" name="roc"
+                     flowable:class="com.kewdetect.integration.services.ssm.ROCServiceTask">
+
+            <documentation>
+                ROC api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="rob" name="rob" isExecutable="true">
+        <startEvent id="rob-start" />
+        <sequenceFlow id="rob-path1" sourceRef="rob-start" targetRef="rob-end" />
+
+        <serviceTask id="rob-end" name="rob"
+                     flowable:class="com.kewdetect.integration.services.ssm.ROBServiceTask">
+
+            <documentation>
+                ROB api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="lab" name="lab" isExecutable="true">
+        <startEvent id="lab-start" />
+        <sequenceFlow id="lab-path" sourceRef="lab-start" targetRef="lab-end" />
+
+        <serviceTask id="lab-end" name="lab"
+                     flowable:class="com.kewdetect.integration.services.labuan.LabuanServiceTask">
+
+            <documentation>
+                Labuan Api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="kop" name="kop" isExecutable="true">
+        <startEvent id="kop-start" />
+        <sequenceFlow id="kop-path1" sourceRef="kop-start" targetRef="kop-end" />
+
+        <serviceTask id="kop-end" name="kop"
+                     flowable:class="com.kewdetect.integration.services.koperasi.KoperasiServiceTask">
+
+            <documentation>
+                Koperasi api is called
+            </documentation>
+
+        </serviceTask>
+
+    </process>
+
+    <process id="plt" name="plt" isExecutable="true">
+        <startEvent id="plt-start" />
+        <sequenceFlow id="plt-path1" sourceRef="plt-start" targetRef="plt-end" />
+
+        <serviceTask id="plt-end" name="plt"
+                     flowable:class="com.kewdetect.integration.services.plate.PlateServiceTask">
+
+            <documentation>
+                Plate number api is called
+            </documentation>
+
+        </serviceTask>
 
     </process>
 
